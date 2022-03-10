@@ -1,0 +1,39 @@
+{% extends "baseadmin.html.twig" %}
+
+{% block body %}
+    <form class="mt-1" method="POST" action="{{ path('admin.niveau.ajout') }}">
+        <input placeholder="Libellé" name="libelle">
+        <input type="hidden" name="_token" value="{{ csrf_token('ajout_niveau') }}">
+        <button type="submit" class="btn btn-success">Ajouter</button>
+    </form>
+    {% for message in app.flashes('erreur') %}
+        <div class="flash-notice text-center text-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <table class="table table-striped">
+    <thead>
+        <tr>
+            <th class="text-left align-top" scope="col">
+                Niveaux
+            </th>
+            <th class="text-center align-top" scope="col">
+                action
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for niveau in niveaux %}
+            <tr>
+                <td>
+                    <h5 class="text-info">
+                        {{ niveau.libelle }}
+                    </h5>
+                </td>
+                <td class="text-center">
+                    <a href="{{ path('admin.niveau.delete', {id:niveau.id}) }}" class="btn btn-danger" onclick="return confirm('Etes-vous sûr de vouloir supprimer {{ niveau.libelle }} ?')">Supprimer</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+{% endblock %}
